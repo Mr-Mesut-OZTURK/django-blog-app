@@ -13,6 +13,8 @@
                 <form class="d-grid gap-4 border px-3 py-5 my-5 shadow " method="post">
                     {% csrf_token %}
 
+                    <!-- {{ form}} -->
+
                     {% for field in form %}
                     <div class="d-grid align-content-stretch">{{ field.label }}: <br> {{ field  }}</div>
                     {% endfor %}

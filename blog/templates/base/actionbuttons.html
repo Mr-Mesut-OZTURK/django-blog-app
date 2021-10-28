@@ -31,8 +31,8 @@
 
     <span class="">
         {% if request.user == post.user %}
-        <a href="#" class="badge bg-success">edit</a>
-        <a href="#" class="badge bg-danger">del</a>
+        <a href="{% url 'updatepost' post.id %}" class="badge bg-success">edit</a>
+        <a href="{% url 'deletepost' post.id %}" class="badge bg-danger">del</a>
         {% endif %}
     </span>
 
