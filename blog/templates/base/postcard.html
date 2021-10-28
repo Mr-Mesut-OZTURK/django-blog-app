@@ -20,18 +20,8 @@
     <div class="card-footer">
         <h6>Published : {{post.publish_date}}</h6>
         <h6>Updated : {{post.last_updated}}</h6>
-        <div class="d-flex justify-content-between alert alert-danger">
-            <span class="d-flex justify-content-between w-50">
-                <span><i class="far fa-comment-alt ml-2"></i> </span>
-                <span><i class="fas fa-eye ml-2"></i></span>
-                <span><i class="far fa-heart ml-2"></i></span>
-            </span>
-            <span class="">
-                {% if request.user == post.user %}
-                <a href="#" class="badge bg-success">edit</a>
-                <a href="#" class="badge bg-danger">del</a>
-                {% endif %}
-            </span>
-        </div>
+
+        {% include './actionbuttons.html' %}
+        
     </div>
 </div>
