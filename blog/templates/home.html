@@ -8,40 +8,7 @@
 <div class="container d-flex gap-4 flex-wrap  justify-content-center">
     {% for post in posts %}
 
-    <div class="card shadow pb-0" style="width:300px; min-width: 250px;">
-
-        <div style="height:300px">
-            <a href="#">
-                <img src="{{ post.image.url }}" alt="{{ post.title }}" class="card-image" style="width:100%">
-            </a>
-        </div>
-
-        <div class="card-body alert alert-success mb-0 py-0">
-            <h3 class="card-title text-center">{{ post.title }}</h3>
-
-            <p>
-                {{post.content|truncatechars:40}}
-                <span class="badge bg-primary">{{ post.category }}</span>
-                <span class="badge bg-danger">{{ post.user }}</span>
-            </p>
-        </div>
-
-        <div class="card-footer">
-            <h6>Published : {{post.publish_date}}</h6>
-            <h6>Updated : {{post.last_updated}}</h6>
-            <div class="d-flex justify-content-between">
-                <span class="">
-                    <span>kalp</span>
-                    <span>göz</span>
-                    <span>yorum</span>
-                </span>
-                <span class="">
-                    <a href="#" class="badge bg-success">edit</a>
-                    <a href="#" class="badge bg-danger">del</a>
-                </span>
-            </div>
-        </div>
-    </div>
+    {% include './base/postcard.html' %}
 
     {% endfor %}
 </div>
