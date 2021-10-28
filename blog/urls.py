@@ -4,21 +4,27 @@ from django.contrib.auth import views as auth_views
 from .views import (
     home, 
     about, 
-    login, 
+    # login, 
     register, 
     addpost, 
     profile, 
     profileupdate, 
     profileadd,
-    like
+    like,
+    updatepost,
+    deletepost,
+    postdetail,
     )
 
 urlpatterns = [
     path('', home, name='home'),
     path('about', about, name='about'),
-    # path('login', login, name='login'),
     path('register', register, name='register'),
 
+    # auth_views (login, logout)
+    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
+    
     # profile
     path('profile', profile, name='profile'),
     path('profileadd', profileadd, name='profileadd'),
@@ -26,10 +32,10 @@ urlpatterns = [
 
     # post
     path('addpost', addpost, name='addpost'),
+    path('updatepost/<int:id>', updatepost, name='updatepost'),
+    path('deletepost/<int:id>', deletepost, name='deletepost'),
+    path('postdetail/<str:slug>', postdetail, name='postdetail'),
 
-    # auth_views (login, logout)
-    path('login/', auth_views.LoginView.as_view(template_name='login.html'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(template_name='logout.html'), name='logout'),
 
     # actions
     path('like/<int:id>', like, name='like'),
