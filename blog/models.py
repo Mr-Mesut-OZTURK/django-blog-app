@@ -33,15 +33,21 @@ class Post(models.Model):  # ok
     image = models.ImageField(upload_to="posts/%Y")
     publish_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
-    status = models.CharField(max_length=20)
+    STATUS_CHOICES = (
+        ("1", "active"),
+        ("2", "deactive"),
+    )
+    status = models.CharField(max_length=20, choices=STATUS_CHOICES)
     slug = models.SlugField(
         verbose_name='slug',
         allow_unicode=True,
         max_length=255,
+        default=title,
         help_text=("The name of the page as it will appear in URLs e.g http://domain.com/blog/[my-slug]/")
     )
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+
 
     def __str__(self):
         return self.title
@@ -50,8 +56,8 @@ class Post(models.Model):  # ok
 class Comment(models.Model):  # ok
     timestamp = models.DateTimeField(auto_now_add=True)
     content = models.TextField(max_length=2000)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='comments')
 
     def __str__(self):
         return self.user.username.title() + ' - ' + self.post.title
@@ -59,16 +65,23 @@ class Comment(models.Model):  # ok
 
 class PostView(models.Model):  # ok
     timestamp = models.TimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    posts = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='views')
+    posts = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='views')
 
     def __str__(self):
         return self.user.username.title()
 
 
 class Like(models.Model):  # ok
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, unique=True)
-    posts = models.ForeignKey(Post, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="likes")
+    posts = models.ForeignKey(Post, on_delete=models.SET_NULL ,null=True, related_name="likes")
 
     def __str__(self):
-        return self.user.username
+        return self.user.username + ' - ' + self.posts.title
+        
+    class Meta:
+        db_table = 'likes'
+        constraints = [
+            models.UniqueConstraint(fields=['posts', 'user'], name="unique_like")
+        ]
+        # unique_together = ('user', 'posts',)
