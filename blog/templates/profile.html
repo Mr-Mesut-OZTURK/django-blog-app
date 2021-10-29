@@ -15,12 +15,13 @@
         </button>
     </p>
 
-    <div class="container-fluid p-0">
+    <!-- <div class="container-fluid"> -->
         <!-- Bio Collapse -->
         <div class="collapse" id="collapseWidthExample1">
+            <div class="card alert alert-success">
+
             {% if profile %}
 
-            <div class="card alert alert-success">
                 <img src="{{ profile.image.url }}" alt="" />
                 <div class="card-body">
                     <h3 class="card-title">{{request.user.username | title}}</h3>
@@ -29,30 +30,35 @@
                     </p>
                     <a href="{% url 'profileupdate' %}" class="btn btn-primary d-block">UPDATE</a>
                 </div>
+                {% else %}
+                
+                <a href="{% url 'profileadd' %}" class="btn btn-success d-block">ADD PROFILE</a>
+                
+                {% endif %}
             </div>
-            {% else %}
-            
-            <a href="{% url 'profileadd' %}" class="btn btn-primary d-block">ADD PROFILE</a>
-
-            {% endif %}
         </div>
 
         <!-- Posts Collapse -->
-        <div class="collapses" id="collapseWidthExample2">
+        <div class="collapse" id="collapseWidthExample2">
             <div class="alert alert-primary">
                 <!-- posts -->
                 <div class="container d-flex gap-4 flex-wrap  justify-content-center">
-                    {% for post in posts %}
+                    {% if posts %}
 
-                    {% include './base/postcard.html' %}
+                        {% for post in posts %}
 
-                    {% endfor %}
+                        {% include './base/postcard.html' %}
+
+                        {% endfor %}
+                    {% else %}
+                        <a href="{% url 'addpost' %}" class="btn btn-primary w-100">+ Add New Post</a>
+                    {% endif %}
                 </div>
                 <!-- end posts -->
             </div>
         </div>
 
-    </div>
+    <!-- </div> -->
 
 </div>
 
