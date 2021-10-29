@@ -104,7 +104,7 @@ DATABASES={
       'ENGINE':'django.db.backends.postgresql_psycopg2',
       'NAME': 'blog_app',  #db propertiesden
       'USER':'postgres',     #db propertiesden
-      'PASSWORD':'qwe123',  # postgresql password
+      'PASSWORD':config('PASSWORD'),  # postgresql password
       'HOST':'localhost',   
       'PORT':'5432',            
    }
