@@ -1,38 +1,69 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 
-from .models import Profile, Post, Like
-from .forms import PostForm, ProfileForm, RegisterForm, LikeForm
+from .models import (
+    Profile,
+    Post,
+    Like,
+    Comment,
+    PostView,
+)
+
+from .forms import (
+    PostForm,
+    ProfileForm,
+    RegisterForm,
+    LikeForm,
+    CommentForm
+)
 
 from django.contrib import messages
 # from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User 
+from django.contrib.auth.models import User
 
-from  django.views import View
-
+from django.views import View
 
 
 # Create your views here.
-def home(request): # ok
+def home(request):  # ok
+
+    if request.method == 'POST':
+        if 'like' in request.POST:
+            if request.user.is_authenticated:
+                # print('Like request', request.POST)
+                user = User.objects.get(id=request.user.id)
+                post = Post.objects.get(slug=request.POST['slug'])
+                # print(post)
+                b1 = Like(user=user, posts=post)
+                instance = Like.objects.filter(user=b1.user, posts=b1.posts)
+                if instance:
+                    instance.delete()
+                else:
+                    b1.save()
+            else:
+                return redirect('login')
 
     posts = Post.objects.filter(status='active')
+    likeform = LikeForm()
     context = {
         'posts': posts,
+        'likeform': likeform,
     }
     return render(request, 'home.html', context)
 
 
-def about(request): # ok
+def about(request):  # ok
     return render(request, 'about.html')
 
 
-def register(request): # ok
-    
+def register(request):  # ok
+
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Your account has been created. You can log in now!')    
+            messages.success(
+                request, f'Your account has been created. You can log in now!')
             return redirect('login')
     else:
         form = RegisterForm()
@@ -41,17 +72,17 @@ def register(request): # ok
     return render(request, 'register.html', context)
 
 
-def profile(request): # ok
+def profile(request):  # ok
 
     if not request.user.is_authenticated:
         return redirect('login')
 
-    posts = Post.objects.filter(user = request.user.id)
+    posts = Post.objects.filter(user=request.user.id)
     try:
-        profile = Profile.objects.get(user = request.user)
+        profile = Profile.objects.get(user=request.user)
     except Profile.DoesNotExist:
         profile = None
-    
+
     context = {
         'posts': posts,
         'profile': profile,
@@ -60,10 +91,10 @@ def profile(request): # ok
     return render(request, 'profile.html', context)
 
 
-def profileadd(request): # ok
+def profileadd(request):  # ok
 
     if not request.user.is_authenticated:
-        return redirect('login')    
+        return redirect('login')
 
     form = ProfileForm()
 
@@ -72,13 +103,15 @@ def profileadd(request): # ok
         form = ProfileForm(request.POST, request.FILES)
 
         # id otomatik olarak buradan yüklenir
-        obj = form.save(commit=False) # Return an object without saving to the DB
+        # Return an object without saving to the DB
+        obj = form.save(commit=False)
         obj.user = User.objects.get(pk=request.user.id)
 
         if form.is_valid():
-            
+
             form.save()
-            messages.success(request, f'Your account has been created. You can log in now!')
+            messages.success(
+                request, f'Your account has been created. You can log in now!')
             return redirect('profile')
 
     context = {
@@ -88,18 +121,19 @@ def profileadd(request): # ok
     return render(request, 'profileadd.html', context)
 
 
-def profileupdate(request): # ok
+def profileupdate(request):  # ok
     if not request.user.is_authenticated:
         return redirect('login')
 
-    user = Profile.objects.get(user = request.user.id)
+    user = Profile.objects.get(user=request.user.id)
     form = ProfileForm(instance=user)
 
     if request.method == 'POST':
         form = ProfileForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Your account has been created. You can log in now!')    
+            messages.success(
+                request, f'Your account has been created. You can log in now!')
             return redirect('profile')
 
     context = {
@@ -108,7 +142,7 @@ def profileupdate(request): # ok
     return render(request, 'profileupdate.html', context)
 
 
-def addpost(request): # ok
+def addpost(request):  # ok
     if not request.user.is_authenticated:
         return redirect('login')
 
@@ -118,20 +152,21 @@ def addpost(request): # ok
         form = PostForm(request.POST, request.FILES)
 
         # id otomatik olarak buradan yüklenir
-        obj = form.save(commit=False) # Return an object without saving to the DB
+        # Return an object without saving to the DB
+        obj = form.save(commit=False)
         obj.user = User.objects.get(pk=request.user.id)
 
         if(form.is_valid()):
             form.save()
             return redirect('profile')
-            
+
     context = {
         'form': form,
     }
     return render(request, 'addpost.html', context)
 
 
-def updatepost(request, id): # ok
+def updatepost(request, id):  # ok
     if not request.user.is_authenticated:
         return redirect('login')
 
@@ -152,7 +187,7 @@ def updatepost(request, id): # ok
     return render(request, 'updatepost.html', context)
 
 
-def deletepost(request, id): # ok
+def deletepost(request, id):  # ok
     if not request.user.is_authenticated:
         return redirect('login')
 
@@ -170,34 +205,60 @@ def deletepost(request, id): # ok
     return render(request, 'deletepost.html', context)
 
 
-
-# Action views
-def like(request, id):
-    
-    if request.user.is_authenticated:
-        
-        user = User.objects.get(id=request.user.id)
-        post = Post.objects.get(id=id)
-        b1 = Like(user=user, posts=post)
-
-        instance = Like.objects.filter(user=b1.user, posts=b1.posts)
-        # print(instance)
-
-        if instance:
-            instance.delete()
-        else:
-            b1.save()
-            # print("saved")
-    
-    return redirect('home')
-
-
 def postdetail(request, slug):
-
+        
     post = Post.objects.get(slug=slug)
+    comments = Comment.objects.filter(post=post.id)
+    commentform = CommentForm()
+    likeform = LikeForm()
+
+    # Post view increment
+    if not 'like' in request.POST:
+        if not 'comment' in request.POST:
+            if request.user.is_authenticated:
+                user = User.objects.get(pk=request.user.id)
+                postview = PostView(posts=post, user=user)
+                postview.save()
+            else:
+                postview= PostView(posts=post)
+                postview.save()
+
+
+    if request.method == 'POST':
+        # if not authenticate dont show another codes
+        if not request.user.is_authenticated:
+            return redirect('login')
+
+        # Like request
+        if 'like' in request.POST:
+            print('Like request')
+            user = User.objects.get(id=request.user.id)
+            post = Post.objects.get(slug=slug)
+            b1 = Like(user=user, posts=post)
+            instance = Like.objects.filter(user=b1.user, posts=b1.posts)
+            if instance:
+                instance.delete()
+            else:
+                b1.save()
+        # comment request
+        elif 'comment' in request.POST:
+            print('comment request')
+            form = CommentForm(request.POST)
+
+            # Return an object without saving to the DB
+            obj = form.save(commit=False)
+            obj.user = User.objects.get(pk=request.user.id)
+            obj.post = Post.objects.get(slug=slug)
+
+            if form.is_valid():
+                form.save()
+                form = CommentForm()
 
     context = {
         'post': post,
+        'comments': comments,
+        'commentform': commentform,
+        'likeform': likeform,
     }
 
     return render(request, 'postdetail.html', context)
