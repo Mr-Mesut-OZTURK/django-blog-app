@@ -4,17 +4,16 @@ from django.contrib.auth import views as auth_views
 from .views import (
     home, 
     about, 
-    # login, 
     register, 
     addpost, 
     profile, 
     profileupdate, 
     profileadd,
-    like,
     updatepost,
     deletepost,
     postdetail,
     )
+
 
 urlpatterns = [
     path('', home, name='home'),
@@ -35,8 +34,4 @@ urlpatterns = [
     path('updatepost/<int:id>', updatepost, name='updatepost'),
     path('deletepost/<int:id>', deletepost, name='deletepost'),
     path('postdetail/<str:slug>', postdetail, name='postdetail'),
-
-
-    # actions
-    path('like/<int:id>', like, name='like'),
 ]
