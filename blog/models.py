@@ -41,6 +41,7 @@ class Post(models.Model):  # ok
     slug = models.SlugField(
         verbose_name='slug',
         allow_unicode=True,
+        unique=True,
         max_length=255,
         default=title,
         help_text=("The name of the page as it will appear in URLs e.g http://domain.com/blog/[my-slug]/")
@@ -65,7 +66,7 @@ class Comment(models.Model):  # ok
 
 class PostView(models.Model):  # ok
     timestamp = models.TimeField(auto_now_add=True)
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name='views')
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True, related_name='views')
     posts = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='views')
 
     def __str__(self):

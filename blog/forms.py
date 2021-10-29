@@ -1,15 +1,10 @@
 from django.forms import ModelForm
-from .models import Profile, Category, Post, Comment, PostView, Like
+from .models import Profile, Post, Comment, PostView, Like
 from django.contrib.auth.models import User 
-
-from django import forms
 
 from django.contrib.auth.forms import UserCreationForm
 
-
-
 class PostForm(ModelForm):
-
     class Meta:
         model = Post
         fields = [
@@ -27,21 +22,23 @@ class ProfileForm(ModelForm):
         model = Profile
         fields = ['image', 'bio']
 
-
 class RegisterForm(UserCreationForm):
 
     class Meta:
         model = User
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
-
 class LikeForm(ModelForm):
-
-    # def __init__(self,user,posts):
-    #     super(LikeForm, self).__init__
-    #     user = user
-    #     posts = posts
 
     class Meta:
         model = Like
-        fields = ['user', 'posts']
+        fields = [
+            # 'user', 
+            # 'posts'
+            ]
+
+class CommentForm(ModelForm):
+
+    class Meta:
+        model = Comment
+        fields = ['content']
