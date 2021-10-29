@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    
 
     # my apps
     'blog',
@@ -141,3 +143,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR,'media/')
 # for login redirect
 LOGIN_REDIRECT_URL = 'home'
 LOGOUT_REDIRECT_URL = 'home'
+
+# markdown
