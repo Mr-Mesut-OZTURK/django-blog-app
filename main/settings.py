@@ -38,6 +38,7 @@ ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
+    'whitenoise.runserver_nostatic',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -56,6 +57,8 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # This is the default Django Security Middleware
+    'django.middleware.security.SecurityMiddleware',
     # Simplified static file serving. 
     # https://warehouse.python.org/project/whitenoise/ 
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -148,9 +151,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfile') 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') 
  
 # Extra places for collectstatic to find static files. 
 STATICFILES_DIRS = ( 
