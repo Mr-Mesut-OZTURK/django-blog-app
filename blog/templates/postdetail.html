@@ -45,10 +45,7 @@
 
                 <div class="card-body alert alert-warning">
                     <h3 class="card-title py-4 text-dark text-center">{{ post.title }}</h3>
-                    <p 
-                        style="text-indent: 30px;text-align: justify;" 
-                        class="card-context"
-                    >
+                    <p style="text-indent: 30px;text-align: justify;" class="card-context">
                         {{ post.content }}
                     </p>
                 </div>
@@ -59,9 +56,10 @@
 
                 <!-- comment form -->
                 <div class="card-comments">
-                    <button class="btn btn-outline-warning w-100" type="button"  data-bs-toggle="collapse" data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseExample">
+                    <a class="btn btn-outline-secondary d-block mx-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseExample">
                         Comment Here
-                    </button>
+                    </a>
                     <div class="collapse p-3" id="collapseComment">
                         <form class="d-grid gap-4" method="post">
                             {% csrf_token %}
@@ -75,10 +73,26 @@
                     <!-- comments-continer -->
                     <ul class="container pt-5">
                         {% for comment in comments %}
-                        
-                            <li class="container alert alert-warning py-2">
-                                <p>{{ comment.content }}</p>
-                            </li>
+
+                        <li class="container px-3 py-2 mb-4 d-flex gap-2 border-top border-3" style="background-color: #f1f1f1">
+                                <span class="d-grid justify-content-center align-items-center"
+                                    style="width:50px;height:50px;border-radius: 50%;overflow: hidden">
+                                    <img src="{{ comment.user.profile.image.url}}" alt="" style="width:100%;">
+                                </span>
+                                <div class="container px-1 bg-warningi">
+                                    <div class="">
+                                        <span class="badge bg-success">
+                                            {{ comment.user.username }}
+                                        </span>
+                                        <span class="">
+                                            {{ comment.timestamp }}
+                                        </span>
+                                    </div>
+                                    <p class="border-top mt-2 m-2">
+                                        {{ comment.content }}
+                                    </p>
+                                </div>
+                        </li>
 
                         {% endfor %}
                     </ul>

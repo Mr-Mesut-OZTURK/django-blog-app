@@ -27,6 +27,9 @@ from django.views import View
 # Create your views here.
 def home(request):  # ok
 
+    posts = Post.objects.filter(status='active')
+    likeform = LikeForm()
+
     if request.method == 'POST':
         if 'like' in request.POST:
             if request.user.is_authenticated:
@@ -38,13 +41,16 @@ def home(request):  # ok
                 instance = Like.objects.filter(user=b1.user, posts=b1.posts)
                 if instance:
                     instance.delete()
+                    # likeform = LikeForm()
+                    return redirect('home')
                 else:
                     b1.save()
+                    # likeform = LikeForm()
+                    return redirect('home')
             else:
                 return redirect('login')
 
-    posts = Post.objects.filter(status='active')
-    likeform = LikeForm()
+
     context = {
         'posts': posts,
         'likeform': likeform,

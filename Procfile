@@ -1,1 +1,1 @@
-web: gunicorn pala-django-blog-app.wsgi
+web: gunicorn main.wsgi
