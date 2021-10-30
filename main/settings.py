@@ -52,7 +52,7 @@ INSTALLED_APPS = [
 
     # 3 party apps
     'crispy_forms',
-    'psycopg2',
+    # 'psycopg2',
 ]
 
 MIDDLEWARE = [
@@ -92,24 +92,24 @@ WSGI_APPLICATION = 'main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-DATABASES={
-   'default':{
-      'ENGINE':'django.db.backends.postgresql_psycopg2',
-      'NAME': config('NAME'),  #db propertiesden
-      'USER':config('USER'),     #db propertiesden
-      'PASSWORD':config('PASSWORD'),  # postgresql password
-      'HOST':config("HOST"),   
-      'PORT':config('PORT'),
-      "ATOMIC_REQUESTS": True,           
-   }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
 }
+
+# DATABASES={
+#    'default':{
+#       'ENGINE':'django.db.backends.postgresql_psycopg2',
+#       'NAME': config('NAME'),  #db propertiesden
+#       'USER':config('USER'),     #db propertiesden
+#       'PASSWORD':config('PASSWORD'),  # postgresql password
+#       'HOST':config("HOST"),   
+#       'PORT':config('PORT'),
+#       "ATOMIC_REQUESTS": True,           
+#    }
+# }
 
 
 # Password validation
