@@ -1,0 +1,6 @@
+.bg_image_url {
+    /* background-attachment: fixed; */
+    background-size: contain!important;
+    background-position: center!important;
+    background-repeat: no-repeat!important;
+}
