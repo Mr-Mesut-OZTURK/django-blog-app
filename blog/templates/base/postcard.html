@@ -4,7 +4,12 @@
     <div style="height:300px;" class="p-1">
         <div class="" style="height:290px;overflow:hidden;">
             <a href="{% url 'postdetail' post.slug %}">
-                <img src="{{ post.image.url }}" alt="{{ post.slug }}" class="card-image-top" style="width:100%;" />
+                <img 
+                    src="{{ post.image.url }}" 
+                    alt="{{ post.slug }}" 
+                    class="card-image-top bg_image_url" 
+                    style="width:100%;background-image: url('{{ post.bg_image_url }}');" 
+                />
             </a>
         </div>
     </div>

@@ -9,10 +9,15 @@
         <div class="col-lg-8 col-md-10">
             <div class="card">
                 <div class="card-header d-flex align-items-center gap-2">
-                    <div class="d-grid justify-content-center align-items-center"
-                        style="width:100px;height:100px;border-radius: 50%;overflow: hidden">
-                        <img src="{{ post.user.profile.image.url}}" alt="" style="width:100%;">
+
+                    <!-- post user top image -->
+                    <div class="d-grid justify-content-center align-items-center bg_image_url"
+                        style="width:100px; height:100px; border-radius:50%; overflow:hidden; background-image: url('{{ post.user.profile.bg_image_url }}');">
+
+                        <img src="{{ post.user.profile.image.url}}" alt="" style="width:100%;" />
+                        
                     </div>
+
                     <table class="">
                         <thead>
                             <tr>
@@ -74,24 +79,25 @@
                     <ul class="container pt-5">
                         {% for comment in comments %}
 
-                        <li class="container px-3 py-2 mb-4 d-flex gap-2 border-top border-3" style="background-color: #f1f1f1">
-                                <span class="d-grid justify-content-center align-items-center"
-                                    style="width:50px;height:50px;border-radius: 50%;overflow: hidden">
-                                    <img src="{{ comment.user.profile.image.url}}" alt="" style="width:100%;">
-                                </span>
-                                <div class="container px-1 bg-warningi">
-                                    <div class="">
-                                        <span class="badge bg-success">
-                                            {{ comment.user.username }}
-                                        </span>
-                                        <span class="">
-                                            {{ comment.timestamp }}
-                                        </span>
-                                    </div>
-                                    <p class="border-top mt-2 m-2">
-                                        {{ comment.content }}
-                                    </p>
+                        <li class="container px-3 py-2 mb-4 d-flex gap-2 border-top border-3"
+                            style="background-color: #f1f1f1">
+                            <span class="d-grid justify-content-center align-items-center bg_image_url"
+                                style="width:50px;height:50px;border-radius: 50%;overflow: hidden;background-image: url('{{ comment.user.profile.bg_image_url }}');">
+                                <img src="{{ comment.user.profile.image.url}}" alt="" style="width:100%;">
+                            </span>
+                            <div class="container px-1 bg-warningi">
+                                <div class="">
+                                    <span class="badge bg-success">
+                                        {{ comment.user.username }}
+                                    </span>
+                                    <span class="">
+                                        {{ comment.timestamp }}
+                                    </span>
                                 </div>
+                                <p class="border-top mt-2 m-2">
+                                    {{ comment.content }}
+                                </p>
+                            </div>
                         </li>
 
                         {% endfor %}

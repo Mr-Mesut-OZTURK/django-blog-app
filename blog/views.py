@@ -105,13 +105,14 @@ def profileadd(request):  # ok
     form = ProfileForm()
 
     if request.method == 'POST':
+        user = User.objects.get(pk=request.user.id)
 
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST, request.FILES, instance=user)
 
         # id otomatik olarak buradan yüklenir
         # Return an object without saving to the DB
-        obj = form.save(commit=False)
-        obj.user = User.objects.get(pk=request.user.id)
+        # obj = form.save(commit=False)
+        # obj.user = User.objects.get(pk=request.user.id)
 
         if form.is_valid():
 
@@ -135,7 +136,8 @@ def profileupdate(request):  # ok
     form = ProfileForm(instance=user)
 
     if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES)
+        form = ProfileForm(request.POST, request.FILES, instance=user)
+
         if form.is_valid():
             form.save()
             messages.success(
