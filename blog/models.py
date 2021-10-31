@@ -13,6 +13,7 @@ User = get_user_model()
 
 class Profile(models.Model):  # ok
     image = models.ImageField(upload_to="profiles/%Y", default="default.jpg")
+    bg_image_url = models.CharField(max_length=254, null=True, blank=True)
     bio = models.TextField(max_length=5000, null=True, blank=True)
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
@@ -31,6 +32,7 @@ class Post(models.Model):  # ok
     title = models.CharField(max_length=100, unique=True)
     content = models.TextField()
     image = models.ImageField(upload_to="posts/%Y")
+    bg_image_url = models.CharField(max_length=254, null=True, blank=True)
     publish_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)
     STATUS_CHOICES = (
