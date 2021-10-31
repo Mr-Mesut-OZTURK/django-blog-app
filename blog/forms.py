@@ -11,6 +11,7 @@ class PostForm(ModelForm):
             'title',
             'content',
             'image',
+            'bg_image_url',
             'status',
             'slug',
             'category',
@@ -20,7 +21,7 @@ class ProfileForm(ModelForm):
 
     class Meta:
         model = Profile
-        fields = ['image', 'bio']
+        fields = ['image', 'bg_image_url', 'bio']
 
 class RegisterForm(UserCreationForm):
 
