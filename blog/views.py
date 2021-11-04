@@ -220,6 +220,8 @@ def postdetail(request, slug):
     commentform = CommentForm()
     likeform = LikeForm()
 
+    print(request.POST)
+
     # Post view increment
     if not 'like' in request.POST:
         if not 'comment' in request.POST:
@@ -239,7 +241,7 @@ def postdetail(request, slug):
 
         # Like request
         if 'like' in request.POST:
-            print('Like request')
+            # print('Like request')
             user = User.objects.get(id=request.user.id)
             post = Post.objects.get(slug=slug)
             b1 = Like(user=user, posts=post)

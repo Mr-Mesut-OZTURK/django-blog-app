@@ -89,10 +89,8 @@ class PostView(models.Model):  # ok
 
 
 class Like(models.Model):  # ok
-    user = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True, related_name="likes")
-    posts = models.ForeignKey(
-        Post, on_delete=models.SET_NULL, null=True, related_name="likes")
+    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="likes")
+    posts = models.ForeignKey(Post, on_delete=models.SET_NULL, null=True, related_name="likes")
 
     def __str__(self):
         return self.user.username + ' - ' + self.posts.title
